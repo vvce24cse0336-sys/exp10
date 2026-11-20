@@ -5,6 +5,8 @@ pipeline {
     environment {
         REGISTRY = "localhost:5000"
         IMAGE_NAME = "anil-demo-app"
+
+        PATH = "/Users/anishkmahadevan/.docker/bin/docker"
     }
 
     stages {
@@ -21,7 +23,15 @@ pipeline {
             }
         }
 
-        stage('3. Build & Tag Docker Image') {
+        stage('3. Check Docker') {
+            steps {
+                sh 'which docker'
+                sh 'docker --version'
+                sh 'docker info'
+            }
+        }
+
+        stage('4. Build & Tag Docker Image') {
             steps {
                 sh """
                     docker build \
@@ -31,7 +41,7 @@ pipeline {
             }
         }
 
-        stage('4. Push Image to Registry') {
+        stage('5. Push Image to Registry') {
             steps {
                 sh "docker push ${REGISTRY}/${IMAGE_NAME}:${BUILD_NUMBER}"
                 sh "docker push ${REGISTRY}/${IMAGE_NAME}:latest"
@@ -43,6 +53,7 @@ pipeline {
         success {
             echo "Pipeline succeeded! Docker image pushed successfully."
         }
+
         failure {
             echo "Pipeline failed. Check the console output."
         }
