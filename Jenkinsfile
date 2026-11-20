@@ -2,12 +2,12 @@
 pipeline {
     agent any
 
-    environment {
-        REGISTRY = "localhost:5000"
+   environment {
+        REGISTRY   = "localhost:5002"
         IMAGE_NAME = "anil-demo-app"
-
-        PATH = "/Users/anishkmahadevan/.docker/bin/docker"
+        PATH = "/bin:/usr/bin:/usr/sbin:/sbin:/usr/local/bin:/opt/homebrew/bin:/Users/anishkmahadevan/.docker/bin:${env.PATH}"
     }
+
 
     stages {
 
